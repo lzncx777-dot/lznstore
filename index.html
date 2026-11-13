@@ -1,11 +1,735 @@
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LZN STORE | Achadinhos que você ama</title>
+<style>
+:root {
+  --black:#101010;
+  --yellow:#ffd429;
+  --white:#fff;
+  --bg:#f6f6f4;
+  --gray:#777;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--black);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.announcement{
+  background:var(--yellow);
+  text-align:center;
+  padding:10px;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#fff;
+  border-bottom:1px solid #eee;
+}
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.logo{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+.logo span{color:#d4a900}
+.links{display:flex;gap:22px}
+.links a{
+  color:#222;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:bold;
+}
+.right{display:flex;gap:10px}
+.search{
+  width:180px;
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:25px;
+}
+.cart-button{
+  background:#111;
+  color:white;
+  border:0;
+  padding:11px 15px;
+  border-radius:25px;
+  font-weight:bold;
+}
+.cart-button span{
+  background:var(--yellow);
+  color:#111;
+  padding:3px 7px;
+  border-radius:20px;
+}
+.hero{
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 20px;
+}
+.hero-box{
+  background:#111;
+  color:white;
+  border-radius:22px;
+  min-height:420px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+}
+.hero-copy{
+  padding:65px 9%;
+  align-self:center;
+}
+.eyebrow{
+  color:var(--yellow);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:3px;
+}
+h1{
+  font-size:clamp(40px,5vw,65px);
+  line-height:1.05;
+  letter-spacing:-3px;
+  margin:20px 0;
+}
+.hero-copy p{
+  color:#ccc;
+  line-height:1.7;
+  font-size:14px;
+}
+.cta{
+  display:inline-block;
+  background:var(--yellow);
+  color:#111;
+  padding:15px 20px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:12px;
+  margin-top:15px;
+}
+.hero-art{
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle,#66531a,#171717 70%);
+  min-height:300px;
+}
+.hero-art div{
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:linear-gradient(140deg,#fff0a1,#f4c400,#7e6100);
+  display:grid;
+  place-items:center;
+  color:#111;
+  font-size:55px;
+  font-weight:900;
+  box-shadow:0 25px 70px #0008;
+}
+.benefits{
+  max-width:1150px;
+  margin:25px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+.benefit{
+  font-size:12px;
+  color:#666;
+}
+.benefit strong{
+  display:block;
+  color:#111;
+  margin-bottom:5px;
+}
+main{
+  max-width:1200px;
+  margin:50px auto;
+  padding:0 20px;
+}
+.heading{margin-bottom:22px}
+.kicker{
+  color:#a17f00;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+h2{
+  font-size:29px;
+  letter-spacing:-1px;
+  margin:8px 0;
+}
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:50px;
+}
+.category{
+  background:white;
+  padding:22px;
+  border:1px solid #eee;
+  border-radius:15px;
+  text-decoration:none;
+  color:#111;
+}
+.category strong{display:block}
+.category small{
+  color:#888;
+  display:block;
+  margin-top:6px;
+}
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:20px;
+}
+.filter{
+  padding:10px 16px;
+  border:1px solid #ddd;
+  background:transparent;
+  border-radius:25px;
+  font-size:11px;
+}
+.filter.active{
+  background:#111;
+  color:white;
+}
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+.product{
+  background:white;
+  border:1px solid #eee;
+  border-radius:15px;
+  overflow:hidden;
+}
+.visual{
+  height:200px;
+  background:#eeeae0;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+.emoji{font-size:65px}
+.tag{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:var(--yellow);
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:bold;
+}
+.info{padding:15px}
+.type{
+  font-size:10px;
+  color:#999;
+  text-transform:uppercase;
+}
+.info h3{
+  font-size:14px;
+  margin:8px 0;
+}
+.price{
+  font-size:19px;
+  font-weight:900;
+}
+.payment{
+  font-size:10px;
+  color:#888;
+  margin-top:5px;
+}
+.add{
+  width:100%;
+  padding:12px;
+  margin-top:14px;
+  background:white;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:10px;
+}
+.add:hover{
+  background:#111;
+  color:white;
+}
+.promo{
+  margin:55px 0;
+  background:var(--yellow);
+  padding:35px;
+  border-radius:18px;
+}
+.promo h2{margin:8px 0}
+footer{
+  background:#111;
+  color:white;
+  padding:45px 25px;
+}
+.footer{
+  max-width:1150px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+.footer p{
+  color:#aaa;
+  font-size:12px;
+  line-height:1.7;
+}
+.footer h4{color:var(--yellow)}
+.footer a{
+  display:block;
+  color:#aaa;
+  text-decoration:none;
+  font-size:11px;
+  margin:12px 0;
+}
+.copyright{
+  margin-top:30px;
+  padding-top:18px;
+  border-top:1px solid #333;
+  color:#777;
+  font-size:10px;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  z-index:30;
+  display:none;
+}
+.overlay.show{display:block}
+.drawer{
+  position:fixed;
+  right:0;
+  top:0;
+  width:min(420px,100%);
+  height:100%;
+  background:white;
+  z-index:31;
+  padding:22px;
+  transform:translateX(100%);
+  transition:.25s;
+  display:flex;
+  flex-direction:column;
+}
+.drawer.show{transform:translateX(0)}
+.drawer-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.close{
+  border:0;
+  border-radius:50%;
+  padding:9px 13px;
+}
+.items{flex:1;overflow:auto}
+.cart-row{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid #eee;
+  font-size:12px;
+}
+.qty{display:flex;gap:8px;align-items:center}
+.qty button{
+  background:white;
+  border:1px solid #ddd;
+  padding:5px 9px;
+}
+.total-line{
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+  font-size:18px;
+}
+.checkout{
+  width:100%;
+  background:#111;
+  color:white;
+  border:0;
+  padding:15px;
+  margin-top:15px;
+  border-radius:8px;
+  font-weight:bold;
+}
+.disclaimer{
+  font-size:10px;
+  color:#888;
+  line-height:1.5;
+}
+@media(max-width:800px){
+  .links{display:none}
+  .search{width:120px}
+  .hero-box{grid-template-columns:1fr}
+  .hero-copy{padding:40px 25px 15px}
+  .hero-art{min-height:220px}
+  .hero-art div{width:175px;height:175px;font-size:40px}
+  .benefits{grid-template-columns:repeat(2,1fr)}
+  .categories{grid-template-columns:repeat(2,1fr)}
+  .products{grid-template-columns:repeat(2,1fr);gap:10px}
+  .visual{height:155px}
+  .footer{grid-template-columns:1fr 1fr}
+  .footer>div:first-child{grid-column:1/-1}
+}
+@media(max-width:390px){
+  .logo{font-size:21px}
+  .search{width:100px}
+  .cart-button{padding:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="announcement">
+LZN STORE • ACHADINHOS QUE VOCÊ AMA
+</div>
+
+<header>
+<nav class="nav">
+<div class="logo">LZN STORE<span>.</span></div>
+
+<div class="links">
+<a href="#inicio">Início</a>
+<a href="#categorias">Categorias</a>
+<a href="#produtos">Produtos</a>
+<a href="#sobre">Sobre</a>
+</div>
+
+<div class="right">
+<input class="search" id="search" placeholder="Buscar produto...">
+<button class="cart-button" onclick="openCart()">
+Sacola <span id="count">0</span>
+</button>
+</div>
+</nav>
+</header>
+
+<section class="hero" id="inicio">
+<div class="hero-box">
+<div class="hero-copy">
+<div class="eyebrow">LZN STORE • SELEÇÃO ESPECIAL</div>
+<h1>Achadinhos que você ama.</h1>
+<p>
+Encontre produtos para facilitar sua rotina,
+renovar seu espaço e deixar seu estilo ainda
+mais completo.
+</p>
+<a href="#produtos" class="cta">EXPLORAR PRODUTOS ↗</a>
+</div>
+<div class="hero-art">
+<div>LZN</div>
+</div>
+</div>
+</section>
+
+<section class="benefits">
+<div class="benefit">✓ <strong>Compra descomplicada</strong>Pedido fácil e rápido</div>
+<div class="benefit">◇ <strong>Produtos selecionados</strong>Variedade para sua rotina</div>
+<div class="benefit">⌂ <strong>Atendimento próximo</strong>Suporte ao cliente</div>
+<div class="benefit">↗ <strong>Pedido acompanhado</strong>Mais clareza na compra</div>
+</section>
+
+<main>
+<section id="categorias">
+<div class="heading">
+<div class="kicker">ENCONTRE SEU PRÓXIMO FAVORITO</div>
+<h2>Compre por categoria</h2>
+</div>
+
+<div class="categories">
+<a class="category" href="#produtos" data-cat="Tecnologia">
+<strong>⌁ Tecnologia</strong>
+<small>Praticidade e inovação</small>
+</a>
+<a class="category" href="#produtos" data-cat="Casa">
+<strong>⌂ Casa & decoração</strong>
+<small>Deixe seu espaço especial</small>
+</a>
+<a class="category" href="#produtos" data-cat="Acessórios">
+<strong>✳ Acessórios</strong>
+<small>Detalhes que fazem diferença</small>
+</a>
+<a class="category" href="#produtos" data-cat="Lifestyle">
+<strong>☼ Lifestyle</strong>
+<small>Mais conforto no dia a dia</small>
+</a>
+</div>
+</section>
+
+<section id="produtos">
+<div class="heading">
+<div class="kicker">ESCOLHAS DA LZN</div>
+<h2>Produtos em destaque</h2>
+</div>
+
+<div class="filters">
+<button class="filter active" data-filter="Todos">Todos</button>
+<button class="filter" data-filter="Tecnologia">Tecnologia</button>
+<button class="filter" data-filter="Casa">Casa</button>
+<button class="filter" data-filter="Acessórios">Acessórios</button>
+<button class="filter" data-filter="Lifestyle">Lifestyle</button>
+</div>
+
+<div class="products" id="products"></div>
+</section>
+
+<section class="promo" id="sobre">
+<div class="kicker">LZN STORE</div>
+<h2>Seu estilo. Suas escolhas. Sua loja.</h2>
+<p>Uma seleção de produtos para tornar cada dia mais prático e especial.</p>
+</section>
+</main>
+
+<footer>
+<div class="footer">
+<div>
+<div class="logo">LZN STORE<span>.</span></div>
+<p>
+Uma loja online feita para aproximar você de produtos úteis,
+estilosos e interessantes. Nosso compromisso é oferecer
+uma experiência clara, simples e confiável.
+</p>
+</div>
+<div>
+<h4>INSTITUCIONAL</h4>
+<a href="#sobre">Sobre a LZN STORE</a>
+<a href="#produtos">Produtos</a>
+<a href="mailto:contato@seudominio.com">Fale conosco</a>
+</div>
+<div>
+<h4>ATENDIMENTO</h4>
+<a href="#sobre">Dúvidas frequentes</a>
+<a href="#sobre">Envios e entregas</a>
+<a href="#sobre">Trocas e devoluções</a>
+</div>
+</div>
+<div class="copyright">
+© <span id="year"></span> LZN STORE. Todos os direitos reservados.
+</div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="drawer" id="drawer">
+<div class="drawer-head">
+<h2>Sua sacola</h2>
+<button class="close" onclick="closeCart()">✕</button>
+</div>
+
+<div class="items" id="items"></div>
+
+<div>
+<div class="total-line">
+<span>Total</span>
+<span id="total">R$ 0,00</span>
+</div>
+<button class="checkout" onclick="checkout()">
+CONTINUAR PELO WHATSAPP
+</button>
+<p class="disclaimer">
+Versão demonstrativa. Pagamentos online e integração
+com fornecedores ainda precisam ser configurados.
+</p>
+</div>
+</aside>
 
 <script>
-  // Inicialize o Supabase com seus dados
-  const SUPABASE_URL = 'COLOQUE_SUA_URL_AQUI';
-  const SUPABASE_ANON_KEY = 'COLOQUE_SUA_CHAVE_ANON_AQUI';
-  
-  const { createClient } = supabase;
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// PRODUTOS DEMONSTRATIVOS
+const products=[
+{id:1,name:"Fone Bluetooth Pulse",cat:"Tecnologia",price:89.90,tag:"Mais vendido",emoji:"🎧"},
+{id:2,name:"Luminária Minimal",cat:"Casa",price:119.90,tag:"Destaque",emoji:"💡"},
+{id:3,name:"Garrafa Térmica Urban",cat:"Lifestyle",price:69.90,tag:"Novidade",emoji:"🥤"},
+{id:4,name:"Suporte Flex para Celular",cat:"Tecnologia",price:39.90,tag:"Essencial",emoji:"📱"},
+{id:5,name:"Organizador Multiuso",cat:"Casa",price:54.90,tag:"Escolha LZN",emoji:"🗂️"},
+{id:6,name:"Óculos Urban Classic",cat:"Acessórios",price:79.90,tag:"Estilo",emoji:"🕶️"},
+{id:7,name:"Mochila Everyday",cat:"Acessórios",price:149.90,tag:"Versátil",emoji:"🎒"},
+{id:8,name:"Mini Ventilador USB",cat:"Lifestyle",price:49.90,tag:"Prático",emoji:"🌀"}
+];
+
+// CONFIGURE SEU WHATSAPP
+// Exemplo: 5511999999999
+const WHATSAPP_NUMBER="5500000000000";
+
+let cart=JSON.parse(localStorage.getItem("lzn-cart")||"[]");
+let filter="Todos";
+
+const money=n=>n.toLocaleString("pt-BR",{
+style:"currency",
+currency:"BRL"
+});
+
+function renderProducts(){
+const q=document.getElementById("search").value.toLowerCase();
+
+const list=products.filter(p=>
+(filter==="Todos"||p.cat===filter)&&
+(p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q))
+);
+
+document.getElementById("products").innerHTML=list.map(p=>`
+<article class="product">
+<div class="visual">
+<span class="emoji">${p.emoji}</span>
+<span class="tag">${p.tag}</span>
+</div>
+<div class="info">
+<div class="type">${p.cat}</div>
+<h3>${p.name}</h3>
+<div class="price">${money(p.price)}</div>
+<div class="payment">Consulte condições de pagamento</div>
+<button class="add" onclick="add(${p.id})">
+ADICIONAR À SACOLA +
+</button>
+</div>
+</article>
+`).join("")||"<p>Nenhum produto encontrado.</p>";
+}
+
+function save(){
+localStorage.setItem("lzn-cart",JSON.stringify(cart));
+renderCart();
+}
+
+function add(id){
+const item=cart.find(x=>x.id===id);
+if(item)item.qty++;
+else cart.push({id,qty:1});
+save();
+openCart();
+}
+
+function qty(id,delta){
+const item=cart.find(x=>x.id===id);
+if(!item)return;
+item.qty+=delta;
+if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+save();
+}
+
+function renderCart(){
+document.getElementById("count").textContent=
+cart.reduce((s,x)=>s+x.qty,0);
+
+document.getElementById("items").innerHTML=cart.length?
+cart.map(x=>{
+const p=products.find(y=>y.id===x.id);
+return `
+<div class="cart-row">
+<div>
+<strong>${p.name}</strong>
+<small>${money(p.price)} cada</small>
+</div>
+<div class="qty">
+<button onclick="qty(${p.id},-1)">−</button>
+<b>${x.qty}</b>
+<button onclick="qty(${p.id},1)">+</button>
+</div>
+</div>`;
+}).join(""):"<p>Sua sacola está vazia.</p>";
+
+document.getElementById("total").textContent=money(
+cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0)
+);
+}
+
+function openCart(){
+document.getElementById("drawer").classList.add("show");
+document.getElementById("overlay").classList.add("show");
+}
+
+function closeCart(){
+document.getElementById("drawer").classList.remove("show");
+document.getElementById("overlay").classList.remove("show");
+}
+
+function checkout(){
+if(!cart.length){
+alert("Adicione um produto à sacola.");
+return;
+}
+
+if(WHATSAPP_NUMBER==="5500000000000"){
+alert("Configure o WhatsApp da loja no código antes de publicar.");
+return;
+}
+
+const lines=cart.map(x=>{
+const p=products.find(y=>y.id===x.id);
+return `• ${p.name} — ${x.qty}x — ${money(p.price*x.qty)}`;
+});
+
+const total=cart.reduce((s,x)=>
+s+products.find(p=>p.id===x.id).price*x.qty,0
+);
+
+const message=`Olá! Quero fazer este pedido na LZN STORE:
+
+${lines.join("\n")}
+
+Total: ${money(total)}
+
+Como faço para concluir a compra?`;
+
+window.open(
+`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+"_blank"
+);
+}
+
+document.getElementById("search").addEventListener("input",renderProducts);
+
+document.querySelectorAll(".filter").forEach(button=>{
+button.addEventListener("click",()=>{
+filter=button.dataset.filter;
+document.querySelectorAll(".filter").forEach(x=>
+x.classList.toggle("active",x===button)
+);
+renderProducts();
+});
+});
+
+document.querySelectorAll(".category").forEach(link=>{
+link.addEventListener("click",()=>{
+filter=link.dataset.cat;
+document.querySelectorAll(".filter").forEach(x=>
+x.classList.toggle("active",x.dataset.filter===filter)
+);
+renderProducts();
+});
+});
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+renderProducts();
+renderCart();
 </script>
+
+</body>
+</html>
