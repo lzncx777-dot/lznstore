@@ -1,1 +1,11 @@
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
+<script>
+  // Inicialize o Supabase com seus dados
+  const SUPABASE_URL = 'COLOQUE_SUA_URL_AQUI';
+  const SUPABASE_ANON_KEY = 'COLOQUE_SUA_CHAVE_ANON_AQUI';
+  
+  const { createClient } = supabase;
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
