@@ -1,0 +1,13 @@
+{
+  "name": "lzn-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LZN STORE - loja virtual premium",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^41.6.0"
+  }
+}

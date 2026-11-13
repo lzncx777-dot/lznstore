@@ -1,944 +1,201 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
-<meta name="description" content="LZN STORE — Produtos selecionados para você.">
-<title>LZN STORE | Elegância em cada escolha</title>
-
+<meta name="description" content="LZN STORE — seleção premium de produtos para sua rotina.">
+<title>LZN STORE | Sua escolha, seu estilo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{
-  --black:#080808;
-  --dark:#111111;
-  --gold:#D4AF37;
-  --gold-light:#F0D77A;
-  --white:#ffffff;
-  --bg:#f5f4f0;
-  --gray:#777;
-  --border:#e9e5da;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--black);
-}
-button,input{font:inherit}
-button{cursor:pointer}
-a{color:inherit}
-.announcement{
-  background:var(--black);
-  color:var(--gold);
-  text-align:center;
-  padding:11px;
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:2px;
-}
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:#fff;
-  border-bottom:1px solid var(--border);
-}
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:17px 22px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-.logo{
-  font-size:27px;
-  font-weight:900;
-  letter-spacing:-1.5px;
-  white-space:nowrap;
-}
-.logo span{color:var(--gold)}
-.links{display:flex;gap:24px}
-.links a{
-  text-decoration:none;
-  font-size:12px;
-  font-weight:bold;
-  transition:.2s;
-}
-.links a:hover{color:#b28b19}
-.right{display:flex;gap:9px;align-items:center}
-.search{
-  width:190px;
-  padding:12px 15px;
-  border:1px solid #ddd;
-  border-radius:30px;
-  outline:none;
-  font-size:12px;
-}
-.search:focus{border-color:var(--gold)}
-.cart-button{
-  background:var(--black);
-  color:white;
-  border:1px solid var(--gold);
-  padding:12px 16px;
-  border-radius:30px;
-  font-weight:bold;
-  font-size:12px;
-}
-.cart-button span{
-  background:var(--gold);
-  color:#111;
-  padding:4px 8px;
-  border-radius:20px;
-  margin-left:5px;
-}
-.hero{
-  max-width:1200px;
-  margin:28px auto;
-  padding:0 20px;
-}
-.hero-box{
-  background:var(--black);
-  color:white;
-  border:1px solid #4c3b12;
-  border-radius:22px;
-  min-height:420px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  overflow:hidden;
-}
-.hero-copy{
-  padding:65px 9%;
-  align-self:center;
-}
-.eyebrow{
-  color:var(--gold);
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:3px;
-}
-h1{
-  font-size:clamp(40px,5vw,65px);
-  line-height:1.05;
-  letter-spacing:-3px;
-  margin:20px 0;
-}
-.hero-copy p{
-  color:#c7c7c7;
-  line-height:1.8;
-  font-size:14px;
-}
-.cta{
-  display:inline-block;
-  background:linear-gradient(135deg,var(--gold-light),var(--gold));
-  color:#111;
-  padding:15px 22px;
-  border-radius:30px;
-  text-decoration:none;
-  font-weight:900;
-  font-size:11px;
-  margin-top:15px;
-  transition:.2s;
-}
-.cta:hover{transform:translateY(-2px)}
-.hero-art{
-  display:grid;
-  place-items:center;
-  background:radial-gradient(circle,#4b3a12,#171717 68%);
-  min-height:300px;
-}
-.hero-art div{
-  width:260px;
-  height:260px;
-  border-radius:50%;
-  background:linear-gradient(140deg,#fff0a1,#d4af37,#80600b);
-  display:grid;
-  place-items:center;
-  color:#111;
-  font-size:55px;
-  font-weight:900;
-  box-shadow:0 20px 80px #d4af3730;
-  border:5px solid #f5d977;
-}
-.benefits{
-  max-width:1150px;
-  margin:28px auto;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-.benefit{
-  font-size:11px;
-  color:#777;
-  line-height:1.5;
-}
-.benefit strong{
-  display:block;
-  color:#111;
-  margin-bottom:5px;
-  font-size:12px;
-}
-main{
-  max-width:1200px;
-  margin:55px auto;
-  padding:0 20px;
-}
-.heading{margin-bottom:22px}
-.kicker{
-  color:#a17b17;
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:2px;
-}
-h2{
-  font-size:29px;
-  letter-spacing:-1px;
-  margin:8px 0;
-}
-.categories{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:55px;
-}
-.category{
-  background:white;
-  padding:23px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  text-decoration:none;
-  transition:.2s;
-}
-.category:hover{
-  border-color:var(--gold);
-  transform:translateY(-3px);
-}
-.category strong{display:block;font-size:14px}
-.category small{
-  color:#888;
-  display:block;
-  margin-top:7px;
-  font-size:11px;
-}
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:20px;
-}
-.filter{
-  padding:10px 17px;
-  border:1px solid #ddd;
-  background:transparent;
-  border-radius:25px;
-  font-size:11px;
-}
-.filter.active{
-  background:var(--black);
-  border-color:var(--gold);
-  color:var(--gold);
-}
-.products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-.product{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  transition:.2s;
-}
-.product:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 30px #0000000c;
-}
-.visual{
-  height:205px;
-  background:linear-gradient(145deg,#eeeae0,#f9f7f0);
-  display:grid;
-  place-items:center;
-  position:relative;
-  overflow:hidden;
-}
-.visual img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.emoji{font-size:65px}
-.tag{
-  position:absolute;
-  top:12px;
-  left:12px;
-  background:var(--gold);
-  color:#111;
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:9px;
-  font-weight:bold;
-}
-.info{padding:15px}
-.type{
-  font-size:10px;
-  color:#999;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-.info h3{
-  font-size:14px;
-  margin:9px 0;
-  min-height:32px;
-}
-.price{
-  font-size:20px;
-  font-weight:900;
-  color:#9b7610;
-}
-.payment{
-  font-size:10px;
-  color:#888;
-  margin-top:5px;
-}
-.add{
-  width:100%;
-  padding:12px;
-  margin-top:14px;
-  background:var(--black);
-  color:var(--gold);
-  border:1px solid var(--gold);
-  border-radius:8px;
-  font-weight:bold;
-  font-size:10px;
-  transition:.2s;
-}
-.add:hover{
-  background:var(--gold);
-  color:#111;
-}
-.loading,.empty{
-  grid-column:1/-1;
-  padding:35px;
-  text-align:center;
-  color:#777;
-  background:white;
-  border-radius:12px;
-}
-.promo{
-  margin:55px 0;
-  background:var(--black);
-  color:white;
-  padding:38px;
-  border:1px solid #8b6d1c;
-  border-radius:18px;
-}
-.promo h2{color:var(--gold)}
-.promo p{color:#ccc;font-size:13px;line-height:1.7}
-footer{
-  background:var(--black);
-  color:white;
-  padding:45px 25px 25px;
-  border-top:2px solid var(--gold);
-}
-.footer{
-  max-width:1150px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
-}
-.footer p{
-  color:#aaa;
-  font-size:12px;
-  line-height:1.8;
-}
-.footer h4{color:var(--gold);font-size:11px;letter-spacing:1px}
-.footer a{
-  display:block;
-  color:#aaa;
-  text-decoration:none;
-  font-size:11px;
-  margin:13px 0;
-}
-.footer a:hover{color:var(--gold)}
-.copyright{
-  max-width:1150px;
-  margin:30px auto 0;
-  padding-top:18px;
-  border-top:1px solid #333;
-  color:#777;
-  font-size:10px;
-}
-.overlay{
-  position:fixed;
-  inset:0;
-  background:#0009;
-  z-index:30;
-  display:none;
-}
-.overlay.show{display:block}
-.drawer{
-  position:fixed;
-  right:0;
-  top:0;
-  width:min(420px,100%);
-  height:100%;
-  background:white;
-  z-index:31;
-  padding:22px;
-  transform:translateX(100%);
-  transition:.25s;
-  display:flex;
-  flex-direction:column;
-}
-.drawer.show{transform:translateX(0)}
-.drawer-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.close{
-  border:0;
-  border-radius:50%;
-  padding:9px 13px;
-  background:#eee;
-}
-.items{flex:1;overflow:auto}
-.cart-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 0;
-  border-bottom:1px solid #eee;
-  font-size:12px;
-  gap:10px;
-}
-.cart-row small{display:block;color:#888;margin-top:5px}
-.qty{display:flex;gap:8px;align-items:center}
-.qty button{
-  background:white;
-  border:1px solid #ddd;
-  padding:5px 9px;
-}
-.total-line{
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-  font-size:18px;
-}
-.checkout{
-  width:100%;
-  background:var(--black);
-  color:var(--gold);
-  border:1px solid var(--gold);
-  padding:15px;
-  margin-top:15px;
-  border-radius:8px;
-  font-weight:bold;
-}
-.disclaimer{
-  font-size:10px;
-  color:#888;
-  line-height:1.5;
-}
-@media(max-width:800px){
-  .links{display:none}
-  .search{width:125px}
-  .hero-box{grid-template-columns:1fr}
-  .hero-copy{padding:40px 25px 15px}
-  .hero-art{min-height:220px}
-  .hero-art div{width:175px;height:175px;font-size:40px}
-  .benefits{grid-template-columns:repeat(2,1fr)}
-  .categories{grid-template-columns:repeat(2,1fr)}
-  .products{grid-template-columns:repeat(2,1fr);gap:10px}
-  .visual{height:155px}
-  .footer{grid-template-columns:1fr 1fr}
-  .footer>div:first-child{grid-column:1/-1}
-}
-@media(max-width:390px){
-  .logo{font-size:21px}
-  .search{width:100px}
-  .cart-button{padding:10px}
-  .info{padding:11px}
-}
+:root{--bg:#080808;--panel:#111;--panel2:#171717;--gold:#d4af37;--gold2:#f3dc8a;--text:#f7f4ec;--muted:#a7a29a;--line:#302a1b;--danger:#ff7777;--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",Arial,sans-serif}button,input,select,textarea{font:inherit}button,a{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{width:min(1200px,calc(100% - 40px));margin:auto}
+.announcement{background:linear-gradient(90deg,#8b6b18,var(--gold2),#8b6b18);color:#090909;text-align:center;padding:9px 12px;font-size:10px;font-weight:800;letter-spacing:2px}
+header{position:sticky;top:0;z-index:20;background:#090909ed;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-weight:900;font-size:27px;letter-spacing:-1.5px}.brand b{color:var(--gold)}.navlinks{display:flex;gap:25px;color:#d6d0c2;font-size:13px}.navlinks a:hover{color:var(--gold)}.navtools{display:flex;align-items:center;gap:10px}.search{width:210px;background:#111;border:1px solid #393326;border-radius:99px;padding:12px 16px;color:white;outline:none}.search:focus,input:focus,textarea:focus,select:focus{border-color:var(--gold)!important}.btn{border:1px solid var(--gold);border-radius:99px;padding:12px 18px;background:var(--gold);color:#080808;font-weight:800;transition:.2s}.btn:hover{background:var(--gold2);transform:translateY(-1px)}.btn.dark{background:#090909;color:var(--gold)}.btn.ghost{background:transparent;color:var(--gold)}.btn.small{padding:9px 13px;font-size:12px}.cartbtn{border:1px solid var(--gold);background:#090909;color:white;border-radius:99px;padding:10px 15px;font-weight:700}.cartbtn span{background:var(--gold);color:#090909;border-radius:50%;padding:3px 7px;margin-left:5px}
+.hero{padding:48px 0 25px}.heroBox{min-height:420px;border:1px solid #4b3c19;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr;background:radial-gradient(circle at 80% 50%,#30250d 0,#111 35%,#090909 70%);box-shadow:0 25px 90px #000}.heroText{padding:70px 7%;align-self:center}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:800}.hero h1{font-family:"Playfair Display",serif;font-size:clamp(42px,5vw,68px);line-height:1.03;max-width:650px;margin:18px 0}.hero h1 em{font-style:normal;color:var(--gold)}.hero p{color:#bcb5a7;line-height:1.8;max-width:500px;font-size:14px}.heroActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.heroSeal{display:grid;place-items:center;min-height:300px}.seal{width:min(270px,70%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#fff0b0,#d4af37 48%,#72520b 100%);color:#080808;font-size:52px;font-weight:900;letter-spacing:-4px;box-shadow:0 0 100px #d4af3733,inset 0 0 25px #fff8}.seal small{display:block;font-size:10px;letter-spacing:5px;text-align:center;margin-top:-75px}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:22px 0 38px}.trust article{border:1px solid #282319;background:#0e0e0e;border-radius:14px;padding:17px}.trust strong{display:block;font-size:12px;color:var(--gold2);margin-bottom:5px}.trust span{font-size:11px;color:var(--muted)}
+.section{padding:32px 0 50px}.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.sectionHead h2{font-family:"Playfair Display",serif;font-size:34px;margin:8px 0 0}.muted{color:var(--muted)}.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.category{border:1px solid var(--line);background:linear-gradient(145deg,#17140d,#0e0e0e);padding:23px;border-radius:16px;transition:.2s}.category:hover{border-color:var(--gold);transform:translateY(-3px)}.category .symbol{font-size:24px;color:var(--gold)}.category strong{display:block;margin-top:13px}.category small{display:block;color:var(--muted);margin-top:5px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}.filter{background:#101010;border:1px solid #393326;color:#c9c2b4;padding:10px 16px;border-radius:99px;font-size:12px}.filter.active,.filter:hover{background:var(--gold);border-color:var(--gold);color:#080808}.products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.product{border:1px solid #2b261b;border-radius:17px;overflow:hidden;background:#111;transition:.2s}.product:hover{transform:translateY(-4px);border-color:#9b7c2b;box-shadow:0 15px 35px #0008}.productVisual{height:205px;background:radial-gradient(circle,#292315,#121212 70%);display:grid;place-items:center;position:relative;overflow:hidden}.productVisual img{width:100%;height:100%;object-fit:cover}.placeholder{font-size:60px;filter:drop-shadow(0 8px 15px #000)}.tag{position:absolute;top:13px;left:13px;background:var(--gold);color:#090909;padding:6px 10px;border-radius:99px;font-size:9px;font-weight:900}.productInfo{padding:16px}.productCat{font-size:9px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}.productInfo h3{font-size:14px;margin:8px 0 10px;min-height:36px}.price{font-size:21px;font-weight:800;color:var(--gold2)}.stock{font-size:10px;color:#8f8a7f;margin-top:5px}.add{width:100%;margin-top:14px;background:#090909;color:var(--gold);border:1px solid #8e7025;padding:12px;border-radius:9px;font-size:10px;font-weight:900}.add:hover{background:var(--gold);color:#090909}
+.promo{margin:30px 0 55px;padding:35px;border:1px solid #8e7025;border-radius:22px;background:linear-gradient(110deg,#1d180b,#0c0c0c 70%);display:flex;justify-content:space-between;align-items:center;gap:20px}.promo h2{font-family:"Playfair Display",serif;font-size:30px;margin:8px 0}.promo p{color:var(--muted);font-size:13px}
+footer{border-top:1px solid var(--line);background:#050505;padding:45px 0 25px}.footerGrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:35px}.footerGrid h4{font-size:11px;letter-spacing:2px;color:var(--gold)}.footerGrid p,.footerGrid a{font-size:12px;color:#9d978b;line-height:1.9}.footerGrid a{display:block;margin:8px 0}.copyright{border-top:1px solid #282319;margin-top:30px;padding-top:18px;color:#777;font-size:10px}
+.overlay{position:fixed;inset:0;background:#000b;z-index:40;opacity:0;pointer-events:none;transition:.2s}.overlay.show{opacity:1;pointer-events:auto}.drawer{position:fixed;right:0;top:0;height:100dvh;width:min(480px,100%);background:#0d0d0d;border-left:1px solid var(--line);z-index:41;padding:24px;transform:translateX(105%);transition:.25s;display:flex;flex-direction:column}.drawer.show{transform:translateX(0)}.drawerHead{display:flex;justify-content:space-between;align-items:center}.drawer h2{font-family:"Playfair Display",serif;font-size:30px}.close{background:#1b1b1b;color:var(--gold);border:1px solid var(--line);border-radius:50%;width:42px;height:42px;font-size:20px}.cartItems{overflow:auto;flex:1}.cartRow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:16px 0;border-bottom:1px solid #292319}.cartRow strong{font-size:13px}.cartRow small{display:block;color:var(--muted);margin-top:5px}.qty{display:flex;align-items:center;gap:9px}.qty button{width:28px;height:28px;background:#171717;color:var(--gold);border:1px solid var(--line);border-radius:6px}.cartBottom{padding-top:16px}.totalLine{display:flex;justify-content:space-between;font-size:20px;font-weight:800}.totalLine b{color:var(--gold2)}.cartBottom .btn{width:100%;margin-top:15px}.fine{font-size:10px;color:#827d73;line-height:1.6}
+.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:#000c;padding:15px}.modal.show{display:grid}.modalCard{width:min(600px,100%);max-height:90dvh;overflow:auto;background:#101010;border:1px solid #70591e;border-radius:20px;padding:24px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modalHead h2{font-family:"Playfair Display",serif}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin:9px 0}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--gold2)}.field input,.field textarea,.field select{width:100%;background:#080808;border:1px solid #393326;color:white;padding:12px;border-radius:9px;outline:none}.field textarea{min-height:70px;resize:vertical}.formActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.status{font-size:12px;color:var(--gold2);min-height:18px;margin-top:8px}.adminPanel{display:none;padding:25px 0 50px}.adminPanel.show{display:block}.adminBox{border:1px solid var(--line);background:#101010;border-radius:16px;padding:18px;margin:15px 0}.adminTable{width:100%;border-collapse:collapse;font-size:11px}.adminTable td,.adminTable th{text-align:left;padding:10px;border-bottom:1px solid #302a1b}.adminTable select{background:#080808;color:white;border:1px solid var(--line);padding:7px;border-radius:6px}.empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:850px){.navlinks{display:none}.search{width:145px}.heroBox{grid-template-columns:1fr}.heroText{padding:48px 7% 15px}.heroSeal{min-height:230px}.seal{width:180px;font-size:40px}.trust{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:repeat(2,1fr)}.footerGrid{grid-template-columns:1fr 1fr}.footerGrid>div:first-child{grid-column:1/-1}}
+@media(max-width:480px){.wrap{width:calc(100% - 26px)}.nav{height:68px;gap:8px}.brand{font-size:22px}.search{width:112px;padding:10px;font-size:11px}.cartbtn{padding:9px 10px;font-size:11px}.hero{padding-top:22px}.heroText{padding:38px 22px 10px}.hero h1{font-size:43px}.hero p{font-size:12px}.heroActions .btn{font-size:11px;padding:11px 13px}.trust{gap:8px}.trust article{padding:13px}.sectionHead h2{font-size:28px}.products{gap:9px}.productVisual{height:145px}.placeholder{font-size:48px}.productInfo{padding:12px}.productInfo h3{font-size:12px}.price{font-size:17px}.add{font-size:9px;padding:11px 5px}.promo{padding:24px;display:block}.promo .btn{margin-top:10px}.footerGrid{gap:15px}.formGrid{grid-template-columns:1fr}.field.full{grid-column:auto}.drawer{padding:18px}}
 </style>
 </head>
-
 <body>
+<div class="announcement">LZN STORE • CURADORIA DE PRODUTOS • EXPERIÊNCIA PREMIUM</div>
+<header><nav class="nav wrap">
+<a class="brand" href="#">LZN STORE<b>.</b></a>
+<div class="navlinks"><a href="#inicio">Início</a><a href="#categorias">Categorias</a><a href="#produtos">Produtos</a><a href="#sobre">A loja</a><a href="#admin" id="adminLink" hidden>Admin</a></div>
+<div class="navtools"><input class="search" id="search" placeholder="Buscar produto..."><button class="cartbtn" id="openCart">Sacola <span id="count">0</span></button></div>
+</nav></header>
 
-<div class="announcement">
-LZN STORE • QUALIDADE, ESTILO E PRATICIDADE
-</div>
+<section class="hero wrap" id="inicio"><div class="heroBox">
+<div class="heroText"><div class="eyebrow">LZN STORE • SELEÇÃO ESPECIAL</div><h1>O extraordinário está nos <em>detalhes.</em></h1><p>Descubra produtos escolhidos para elevar sua rotina. Uma experiência de compra elegante, simples e segura.</p><div class="heroActions"><a class="btn" href="#produtos">EXPLORAR COLEÇÃO ↗</a><a class="btn dark" href="#sobre">CONHEÇA A LZN</a></div></div>
+<div class="heroSeal"><div class="seal">LZN<small>STORE</small></div></div>
+</div></section>
 
-<header>
-<nav class="nav">
-<div class="logo">LZN STORE<span>.</span></div>
-
-<div class="links">
-<a href="#inicio">Início</a>
-<a href="#categorias">Categorias</a>
-<a href="#produtos">Produtos</a>
-<a href="#sobre">Sobre</a>
-</div>
-
-<div class="right">
-<input class="search" id="search" placeholder="Buscar produto...">
-<button class="cart-button" onclick="openCart()">
-Sacola <span id="count">0</span>
-</button>
-</div>
-</nav>
-</header>
-
-<section class="hero" id="inicio">
-<div class="hero-box">
-<div class="hero-copy">
-<div class="eyebrow">LZN STORE • SELEÇÃO ESPECIAL</div>
-<h1>Elegância em cada escolha.</h1>
-<p>
-Descubra produtos selecionados para facilitar sua rotina,
-renovar seu espaço e valorizar seu estilo.
-</p>
-<a href="#produtos" class="cta">EXPLORAR PRODUTOS ↗</a>
-</div>
-<div class="hero-art">
-<div>LZN</div>
-</div>
-</div>
+<section class="wrap trust">
+<article><strong>✦ Seleção especial</strong><span>Produtos escolhidos com cuidado</span></article>
+<article><strong>⌑ Compra protegida</strong><span>Pagamento processado pelo Mercado Pago</span></article>
+<article><strong>↗ Pedido acompanhado</strong><span>Acompanhe a evolução do seu pedido</span></article>
+<article><strong>♡ Atendimento próximo</strong><span>Suporte para ajudar você</span></article>
 </section>
 
-<section class="benefits">
-<div class="benefit">✦ <strong>Compra descomplicada</strong>Uma experiência simples</div>
-<div class="benefit">✦ <strong>Produtos selecionados</strong>Escolhas para sua rotina</div>
-<div class="benefit">✦ <strong>Atendimento próximo</strong>Suporte ao cliente</div>
-<div class="benefit">✦ <strong>Pedido acompanhado</strong>Mais clareza na compra</div>
-</section>
-
-<main>
-<section id="categorias">
-<div class="heading">
-<div class="kicker">ENCONTRE SEU PRÓXIMO FAVORITO</div>
-<h2>Compre por categoria</h2>
-</div>
-
+<main class="wrap">
+<section class="section" id="categorias"><div class="sectionHead"><div><div class="eyebrow">ENCONTRE SEU ESTILO</div><h2>Explore categorias</h2></div></div>
 <div class="categories">
-<a class="category" href="#produtos" data-cat="Tecnologia">
-<strong>⌁ Tecnologia</strong>
-<small>Praticidade e inovação</small>
-</a>
-<a class="category" href="#produtos" data-cat="Casa">
-<strong>⌂ Casa & decoração</strong>
-<small>Deixe seu espaço especial</small>
-</a>
-<a class="category" href="#produtos" data-cat="Acessórios">
-<strong>✳ Acessórios</strong>
-<small>Detalhes que fazem diferença</small>
-</a>
-<a class="category" href="#produtos" data-cat="Lifestyle">
-<strong>☼ Lifestyle</strong>
-<small>Mais conforto no dia a dia</small>
-</a>
-</div>
-</section>
+<a class="category" href="#produtos" data-cat="Tecnologia"><span class="symbol">⌁</span><strong>Tecnologia</strong><small>Praticidade e inovação</small></a>
+<a class="category" href="#produtos" data-cat="Casa"><span class="symbol">⌂</span><strong>Casa & decoração</strong><small>Seu espaço, sua identidade</small></a>
+<a class="category" href="#produtos" data-cat="Acessórios"><span class="symbol">✧</span><strong>Acessórios</strong><small>Detalhes que fazem diferença</small></a>
+<a class="category" href="#produtos" data-cat="Lifestyle"><span class="symbol">☼</span><strong>Lifestyle</strong><small>Mais conforto no dia a dia</small></a>
+</div></section>
 
-<section id="produtos">
-<div class="heading">
-<div class="kicker">ESCOLHAS DA LZN</div>
-<h2>Produtos em destaque</h2>
-<p id="storeStatus" style="font-size:11px;color:#888">
-Carregando produtos...
-</p>
-</div>
+<section class="section" id="produtos"><div class="sectionHead"><div><div class="eyebrow">CURADORIA LZN</div><h2>Produtos em destaque</h2><p class="muted">Escolha seus favoritos e adicione à sacola.</p></div></div>
+<div class="filters" id="filters"><button class="filter active" data-filter="Todos">Todos</button><button class="filter" data-filter="Tecnologia">Tecnologia</button><button class="filter" data-filter="Casa">Casa</button><button class="filter" data-filter="Acessórios">Acessórios</button><button class="filter" data-filter="Lifestyle">Lifestyle</button></div>
+<div class="products" id="products"><div class="empty">Carregando produtos...</div></div></section>
 
-<div class="filters">
-<button class="filter active" data-filter="Todos">Todos</button>
-<button class="filter" data-filter="Tecnologia">Tecnologia</button>
-<button class="filter" data-filter="Casa">Casa</button>
-<button class="filter" data-filter="Acessórios">Acessórios</button>
-<button class="filter" data-filter="Lifestyle">Lifestyle</button>
-</div>
+<section class="promo" id="sobre"><div><div class="eyebrow">LZN STORE</div><h2>Sua escolha. Seu estilo.</h2><p>Uma nova experiência para encontrar produtos que fazem sentido para você.</p></div><a class="btn dark" href="#produtos">VER PRODUTOS ↗</a></section>
 
-<div class="products" id="products">
-<div class="loading">Carregando produtos...</div>
-</div>
-</section>
-
-<section class="promo" id="sobre">
-<div class="kicker">LZN STORE</div>
-<h2>Seu estilo. Suas escolhas. Sua loja.</h2>
-<p>
-Uma loja online feita para aproximar você de produtos úteis,
-estilosos e interessantes.
-</p>
+<section class="adminPanel" id="admin"><div class="sectionHead"><div><div class="eyebrow">ÁREA RESTRITA</div><h2>Painel administrativo</h2></div><button class="btn ghost small" id="logout">Sair</button></div>
+<div class="adminBox"><h3>Adicionar produto</h3><div class="formGrid">
+<div class="field"><label>Nome</label><input id="pName" placeholder="Nome do produto"></div><div class="field"><label>Categoria</label><input id="pCategory" placeholder="Tecnologia"></div>
+<div class="field"><label>Preço (R$)</label><input id="pPrice" type="number" min="0.01" step="0.01" placeholder="99.90"></div><div class="field"><label>Estoque</label><input id="pStock" type="number" min="0" step="1" value="10"></div>
+<div class="field full"><label>URL da imagem</label><input id="pImage" placeholder="https://..."></div><div class="field full"><label>Descrição</label><textarea id="pDescription"></textarea></div><div class="field full"><label>Link do fornecedor (privado no painel)</label><input id="pSupplier" placeholder="https://..."></div></div>
+<div class="formActions"><button class="btn" id="saveProduct">CADASTRAR PRODUTO</button><button class="btn ghost" id="refreshAdmin">ATUALIZAR PAINEL</button></div><div class="status" id="adminStatus"></div></div>
+<div class="adminBox"><h3>Pedidos recentes</h3><div id="ordersTable" class="muted">Carregando...</div></div>
+<div class="adminBox"><h3>Produtos cadastrados</h3><div id="adminProducts" class="muted">Carregando...</div></div>
 </section>
 </main>
 
-<footer>
-<div class="footer">
-<div>
-<div class="logo">LZN STORE<span>.</span></div>
-<p>
-Uma loja online feita para aproximar você de produtos úteis,
-estilosos e interessantes. Nosso compromisso é oferecer
-uma experiência clara e simples.
-</p>
-</div>
-<div>
-<h4>INSTITUCIONAL</h4>
-<a href="#sobre">Sobre a LZN STORE</a>
-<a href="#produtos">Produtos</a>
-<a href="mailto:contato@seudominio.com">Fale conosco</a>
-</div>
-<div>
-<h4>ATENDIMENTO</h4>
-<a href="#sobre">Dúvidas frequentes</a>
-<a href="#sobre">Envios e entregas</a>
-<a href="#sobre">Trocas e devoluções</a>
-</div>
-</div>
-<div class="copyright">
-© <span id="year"></span> LZN STORE. Todos os direitos reservados.
-</div>
-</footer>
+<footer><div class="wrap"><div class="footerGrid">
+<div><a class="brand" href="#">LZN STORE<b>.</b></a><p>Uma loja online com curadoria de produtos, atendimento próximo e uma experiência de compra pensada nos detalhes.</p></div>
+<div><h4>INSTITUCIONAL</h4><a href="#sobre">Sobre a LZN STORE</a><a href="#produtos">Produtos</a><a href="mailto:contato@lznstore.com.br">Contato</a></div>
+<div><h4>ATENDIMENTO</h4><a href="#sobre">Envios e entregas</a><a href="#sobre">Trocas e devoluções</a><a href="#sobre">Privacidade</a></div>
+</div><div class="copyright">© <span id="year"></span> LZN STORE. Todos os direitos reservados.</div></div></footer>
 
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer"><div class="drawerHead"><h2>Sua sacola</h2><button class="close" id="closeCart">×</button></div><div class="cartItems" id="cartItems"></div><div class="cartBottom"><div class="totalLine"><span>Total</span><b id="cartTotal">R$ 0,00</b></div><button class="btn" id="checkoutBtn">FINALIZAR COMPRA ↗</button><p class="fine">O pagamento será realizado em ambiente seguro do Mercado Pago. O pedido só será confirmado após a confirmação do pagamento.</p></div></aside>
 
-<aside class="drawer" id="drawer">
-<div class="drawer-head">
-<h2>Sua sacola</h2>
-<button class="close" onclick="closeCart()">✕</button>
-</div>
+<div class="modal" id="checkoutModal"><div class="modalCard"><div class="modalHead"><h2>Finalizar pedido</h2><button class="close" data-close="checkoutModal">×</button></div><p class="muted">Informe os dados para entrega.</p><form id="checkoutForm"><div class="formGrid">
+<div class="field"><label>Nome completo *</label><input name="name" required maxlength="120"></div><div class="field"><label>E-mail *</label><input name="email" type="email" required></div>
+<div class="field"><label>Telefone/WhatsApp *</label><input name="phone" required></div><div class="field"><label>CEP *</label><input name="postal_code" required></div>
+<div class="field full"><label>Rua / Avenida *</label><input name="street" required></div><div class="field"><label>Número *</label><input name="number" required></div><div class="field"><label>Complemento</label><input name="complement"></div>
+<div class="field"><label>Bairro</label><input name="neighborhood"></div><div class="field"><label>Cidade *</label><input name="city" required></div><div class="field"><label>Estado (UF) *</label><input name="state" required maxlength="2"></div>
+</div><div class="status" id="checkoutStatus"></div><div class="formActions"><button class="btn" type="submit" id="payButton">IR PARA PAGAMENTO SEGURO</button><button class="btn ghost" type="button" data-close="checkoutModal">VOLTAR</button></div></form></div></div>
 
-<div class="items" id="items"></div>
-
-<div>
-<div class="total-line">
-<span>Total</span>
-<span id="total">R$ 0,00</span>
-</div>
-<button class="checkout" onclick="checkout()">
-CONTINUAR PELO WHATSAPP
-</button>
-<p class="disclaimer">
-O pagamento online será configurado na próxima etapa.
-</p>
-</div>
-</aside>
+<div class="modal" id="loginModal"><div class="modalCard"><div class="modalHead"><h2>Acesso administrativo</h2><button class="close" data-close="loginModal">×</button></div><form id="loginForm"><div class="field"><label>E-mail</label><input name="email" type="email" required></div><div class="field"><label>Senha</label><input name="password" type="password" required></div><button class="btn" type="submit">ENTRAR</button><div class="status" id="loginStatus"></div></form></div></div>
 
 <script>
-// =====================================
-// CONFIGURAÇÃO DO SUPABASE
-// =====================================
+/* CONFIGURAÇÃO PÚBLICA: use apenas a URL e a chave anon/public do Supabase. */
+const SUPABASE_URL = "COLE_A_URL_DO_SEU_SUPABASE";
+const SUPABASE_ANON_KEY = "COLE_A_CHAVE_ANON_PUBLICA";
+const supabaseReady = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("COLE_") && !SUPABASE_ANON_KEY.includes("COLE_");
+const db = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-const SUPABASE_URL = "https://nugugnupsgtghdsludxz.supabase.co";
+const money = n => Number(n || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let products = [];
+let cart = JSON.parse(localStorage.getItem("lzn-cart-v2") || "[]");
+let activeFilter = "Todos";
+let session = null;
 
-// Chave pública Publishable fornecida pelo proprietário.
-// Nunca coloque uma chave Secret ou service_role aqui.
-const SUPABASE_KEY = "sb_publishable_24A8nb16y0Y7EH0pdYde9w_l-SHxJ1-";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-// =====================================
-// CONFIGURAÇÕES DA LOJA
-// =====================================
-
-// Coloque o número da loja com DDI e DDD.
-// Exemplo: 5511999999999
-const WHATSAPP_NUMBER = "5500000000000";
-
-// Produtos demonstrativos caso a tabela esteja vazia.
-const demoProducts = [
-{id:1,name:"Fone Bluetooth Pulse",cat:"Tecnologia",price:89.90,tag:"Mais vendido",emoji:"🎧"},
-{id:2,name:"Luminária Minimal",cat:"Casa",price:119.90,tag:"Destaque",emoji:"💡"},
-{id:3,name:"Garrafa Térmica Urban",cat:"Lifestyle",price:69.90,tag:"Novidade",emoji:"🥤"},
-{id:4,name:"Suporte Flex para Celular",cat:"Tecnologia",price:39.90,tag:"Essencial",emoji:"📱"},
-{id:5,name:"Organizador Multiuso",cat:"Casa",price:54.90,tag:"Escolha LZN",emoji:"🗂️"},
-{id:6,name:"Óculos Urban Classic",cat:"Acessórios",price:79.90,tag:"Estilo",emoji:"🕶️"},
-{id:7,name:"Mochila Everyday",cat:"Acessórios",price:149.90,tag:"Versátil",emoji:"🎒"},
-{id:8,name:"Mini Ventilador USB",cat:"Lifestyle",price:49.90,tag:"Prático",emoji:"🌀"}
-];
-
-let products = [...demoProducts];
-let cart = [];
-
-try{
-  cart = JSON.parse(localStorage.getItem("lzn-cart") || "[]");
-  if(!Array.isArray(cart)) cart = [];
-}catch(e){
-  cart = [];
-}
-
-let filter = "Todos";
-
-const money = n => Number(n).toLocaleString("pt-BR",{
-  style:"currency",
-  currency:"BRL"
-});
-
-// =====================================
-// CARREGAR PRODUTOS DO SUPABASE
-// =====================================
-
-function normalizeProduct(row,index){
-  return {
-    id: row.id ?? index + 1,
-    name: row.name ?? row.nome ?? row.title ?? "Produto LZN",
-    cat: row.category ?? row.categoria ?? row.cat ?? "Lifestyle",
-    price: Number(row.price ?? row.preco ?? 0),
-    tag: row.tag ?? row.etiqueta ?? "LZN STORE",
-    emoji: row.emoji ?? "✨",
-    image: row.image_url ?? row.imagem ?? row.image ?? row.foto ?? ""
-  };
-}
+const $ = id => document.getElementById(id);
+function status(id,msg){$(id).textContent=msg||""}
+function showModal(id){$(id).classList.add("show")}
+function hideModal(id){$(id).classList.remove("show")}
+function openCart(){$("drawer").classList.add("show");$("overlay").classList.add("show")}
+function closeCart(){$("drawer").classList.remove("show");$("overlay").classList.remove("show")}
+function saveCart(){localStorage.setItem("lzn-cart-v2",JSON.stringify(cart));renderCart()}
+function productIcon(cat){return ({Tecnologia:"⌁",Casa:"⌂",Acessórios:"✧",Lifestyle:"☼"})[cat]||"✦"}
 
 async function loadProducts(){
-  const status = document.getElementById("storeStatus");
-
-  try{
-    const {data,error} = await supabaseClient
-      .from("products")
-      .select("*");
-
-    if(error) throw error;
-
-    if(data && data.length > 0){
-      products = data.map(normalizeProduct);
-      status.textContent = "Produtos carregados da LZN STORE.";
-    }else{
-      products = [...demoProducts];
-      status.textContent = "Exibindo produtos demonstrativos. Cadastre produtos no banco para substituí-los.";
-    }
-  }catch(error){
-    console.error("Erro ao carregar produtos:",error);
-    products = [...demoProducts];
-    status.textContent = "Banco conectado, mas não foi possível carregar os produtos. Verifique a tabela e as permissões.";
-  }
-
-  renderProducts();
-  renderCart();
+  if(!db){$("products").innerHTML='<div class="empty">Configure a URL e a chave pública do Supabase no final do index.html para carregar os produtos.</div>';return}
+  const {data,error}=await db.from("products").select("id,name,description,category,price,image_url,stock,active").eq("active",true).order("created_at",{ascending:false});
+  if(error){$("products").innerHTML='<div class="empty">Não foi possível carregar os produtos. Confira o SQL e as configurações do Supabase.</div>';console.error(error);return}
+  products=data||[];renderProducts();renderCart();
 }
-
-// =====================================
-// PRODUTOS E BUSCA
-// =====================================
-
 function renderProducts(){
-  const q = document.getElementById("search").value.toLowerCase();
-
-  const list = products.filter(p =>
-    (filter === "Todos" || p.cat === filter) &&
-    (
-      String(p.name).toLowerCase().includes(q) ||
-      String(p.cat).toLowerCase().includes(q)
-    )
-  );
-
-  document.getElementById("products").innerHTML = list.map(p => `
-    <article class="product">
-      <div class="visual">
-        ${
-          p.image
-          ? `<img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
-          : `<span class="emoji">${escapeHTML(p.emoji)}</span>`
-        }
-        <span class="tag">${escapeHTML(p.tag)}</span>
-      </div>
-      <div class="info">
-        <div class="type">${escapeHTML(p.cat)}</div>
-        <h3>${escapeHTML(p.name)}</h3>
-        <div class="price">${money(p.price)}</div>
-        <div class="payment">Consulte condições de pagamento</div>
-        <button class="add" onclick="add('${String(p.id).replace(/'/g,"")}')">
-          ADICIONAR À SACOLA +
-        </button>
-      </div>
-    </article>
-  `).join("") || '<div class="empty">Nenhum produto encontrado.</div>';
+  const q=$("search").value.trim().toLowerCase();
+  const list=products.filter(p=>(activeFilter==="Todos"||p.category===activeFilter)&&(`${p.name} ${p.category} ${p.description||""}`).toLowerCase().includes(q));
+  $("products").innerHTML=list.length?list.map(p=>`<article class="product"><div class="productVisual">${p.image_url?`<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.remove()">`:`<span class="placeholder">${productIcon(p.category)}</span>`}<span class="tag">LZN SELECTION</span></div><div class="productInfo"><div class="productCat">${escapeHtml(p.category)}</div><h3>${escapeHtml(p.name)}</h3><div class="price">${money(p.price)}</div><div class="stock">${Number(p.stock)>0?"Disponível":"Consulte disponibilidade"}</div><button class="add" onclick="addToCart('${p.id}')" ${Number(p.stock)<=0?"disabled":""}>${Number(p.stock)>0?"ADICIONAR À SACOLA +":"INDISPONÍVEL"}</button></div></article>`).join(""):'<div class="empty">Nenhum produto encontrado nesta seleção.</div>';
 }
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  })[char]);
-}
-
-// =====================================
-// SACOLA DE COMPRAS
-// =====================================
-
-function save(){
-  localStorage.setItem("lzn-cart",JSON.stringify(cart));
-  renderCart();
-}
-
-function add(id){
-  const item = cart.find(x => String(x.id) === String(id));
-
-  if(item){
-    item.qty++;
-  }else{
-    cart.push({id:id,qty:1});
-  }
-
-  save();
-  openCart();
-}
-
-function qty(id,delta){
-  const item = cart.find(x => String(x.id) === String(id));
-  if(!item)return;
-
-  item.qty += delta;
-
-  if(item.qty <= 0){
-    cart = cart.filter(x => String(x.id) !== String(id));
-  }
-
-  save();
-}
-
 function renderCart(){
-  document.getElementById("count").textContent =
-    cart.reduce((s,x) => s + x.qty,0);
+  cart=cart.filter(x=>products.some(p=>p.id===x.id));
+  $("count").textContent=cart.reduce((s,x)=>s+x.quantity,0);
+  $("cartItems").innerHTML=cart.length?cart.map(x=>{const p=products.find(y=>y.id===x.id);return `<div class="cartRow"><div><strong>${escapeHtml(p.name)}</strong><small>${money(p.price)} cada</small></div><div class="qty"><button onclick="changeQty('${p.id}',-1)">−</button><b>${x.quantity}</b><button onclick="changeQty('${p.id}',1)">+</button></div></div>`}).join(""):'<div class="empty">Sua sacola está vazia. Escolha seus produtos favoritos.</div>';
+  $("cartTotal").textContent=money(cart.reduce((s,x)=>s+Number(products.find(p=>p.id===x.id)?.price||0)*x.quantity,0));
+  localStorage.setItem("lzn-cart-v2",JSON.stringify(cart));
+}
+function addToCart(id){const p=products.find(x=>x.id===id);if(!p)return;if(Number(p.stock)<=0)return alert("Produto indisponível.");const item=cart.find(x=>x.id===id);if(item){if(item.quantity>=Number(p.stock))return alert("Quantidade maior que o estoque disponível.");item.quantity++}else cart.push({id,quantity:1});saveCart();openCart()}
+function changeQty(id,delta){const item=cart.find(x=>x.id===id);const p=products.find(x=>x.id===id);if(!item||!p)return;item.quantity+=delta;if(item.quantity<1)cart=cart.filter(x=>x.id!==id);if(item.quantity>Number(p.stock)){item.quantity=Number(p.stock);alert("Limite de estoque atingido.")}saveCart()}
 
-  const validCart = cart.map(x => ({
-    ...x,
-    product:products.find(p => String(p.id) === String(x.id))
-  })).filter(x => x.product);
-
-  document.getElementById("items").innerHTML = validCart.length ?
-    validCart.map(x => `
-      <div class="cart-row">
-        <div>
-          <strong>${escapeHTML(x.product.name)}</strong>
-          <small>${money(x.product.price)} cada</small>
-        </div>
-        <div class="qty">
-          <button onclick="qty('${String(x.id).replace(/'/g,"")}',-1)">−</button>
-          <b>${x.qty}</b>
-          <button onclick="qty('${String(x.id).replace(/'/g,"")}',1)">+</button>
-        </div>
-      </div>
-    `).join("") :
-    "<p>Sua sacola está vazia.</p>";
-
-  const total = validCart.reduce(
-    (s,x) => s + Number(x.product.price) * x.qty,0
-  );
-
-  document.getElementById("total").textContent = money(total);
+async function checkoutSubmit(event){
+  event.preventDefault();
+  if(!db)return status("checkoutStatus","A loja ainda não está conectada ao Supabase.");
+  if(!cart.length)return status("checkoutStatus","Sua sacola está vazia.");
+  const form=new FormData(event.target);
+  const buyer={name:form.get("name"),email:form.get("email"),phone:form.get("phone")};
+  const shipping={postal_code:form.get("postal_code"),street:form.get("street"),number:form.get("number"),complement:form.get("complement"),neighborhood:form.get("neighborhood"),city:form.get("city"),state:form.get("state")};
+  $("payButton").disabled=true;$("payButton").textContent="PREPARANDO PAGAMENTO...";status("checkoutStatus","Criando seu pedido com segurança...");
+  try{
+    const response=await fetch("/api/create-preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:cart,buyer,shipping})});
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||"Não foi possível iniciar o pagamento.");
+    localStorage.removeItem("lzn-cart-v2");cart=[];renderCart();window.location.href=data.checkout_url;
+  }catch(err){status("checkoutStatus",err.message||"Erro ao finalizar pedido.");}
+  finally{$("payButton").disabled=false;$("payButton").textContent="IR PARA PAGAMENTO SEGURO"}
+}
+async function currentSession(){
+  if(!db)return;
+  const result=await db.auth.getSession();session=result.data.session;
+  if(session)await checkAdmin();
+  db.auth.onAuthStateChange((_event,newSession)=>{session=newSession;if(session)checkAdmin();else{$("adminLink").hidden=true;$("admin").classList.remove("show")}});
+}
+async function checkAdmin(){
+  if(!session)return;
+  const {data,error}=await db.from("profiles").select("role").eq("id",session.user.id).maybeSingle();
+  if(!error&&data?.role==="admin"){$("adminLink").hidden=false;loadAdmin()}
+}
+async function apiAdmin(path,options={}){
+  const {data}=await db.auth.getSession();const token=data.session?.access_token;
+  if(!token)throw new Error("Faça login novamente.");
+  const response=await fetch(path,{...options,headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`,...(options.headers||{})}});
+  const body=await response.json();if(!response.ok)throw new Error(body.error||"Falha na operação.");return body;
+}
+async function loadAdmin(){
+  if(!session)return;
+  $("admin").classList.add("show");
+  try{
+    const [orders,adminProducts]=await Promise.all([apiAdmin("/api/admin/orders"),apiAdmin("/api/admin/products")]);
+    $("ordersTable").innerHTML=orders.length?`<table class="adminTable"><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Status</th></tr></thead><tbody>${orders.map(o=>`<tr><td>${escapeHtml(o.id.slice(0,8))}</td><td>${escapeHtml(o.customer_name)}<br>${escapeHtml(o.customer_email)}</td><td>${money(o.total)}</td><td><select onchange="updateOrderStatus('${o.id}',this.value)">${["awaiting_payment","paid","processing","shipped","delivered","cancelled","payment_failed","refunded","chargeback"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join("")}</tbody></table>`:'<p>Nenhum pedido até agora.</p>';
+    $("adminProducts").innerHTML=adminProducts.length?`<table class="adminTable"><thead><tr><th>Produto</th><th>Preço</th><th>Estoque</th><th>Ação</th></tr></thead><tbody>${adminProducts.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${money(p.price)}</td><td>${p.stock}</td><td><button class="btn ghost small" onclick="deactivateProduct('${p.id}')">Desativar</button></td></tr>`).join("")}</tbody></table>`:'<p>Nenhum produto cadastrado.</p>';
+  }catch(e){status("adminStatus",e.message)}
+}
+async function updateOrderStatus(id,statusValue){try{await apiAdmin("/api/admin/orders",{method:"PATCH",body:JSON.stringify({id,status:statusValue})});status("adminStatus","Status do pedido atualizado.");}catch(e){status("adminStatus",e.message)}}
+async function deactivateProduct(id){if(!confirm("Desativar este produto?"))return;try{await apiAdmin(`/api/admin/products?id=${encodeURIComponent(id)}`,{method:"DELETE"});await loadProducts();await loadAdmin();}catch(e){status("adminStatus",e.message)}}
+async function createProduct(){
+  const p={name:$("pName").value,category:$("pCategory").value,price:Number($("pPrice").value),stock:Number($("pStock").value),image_url:$("pImage").value,description:$("pDescription").value,supplier_url:$("pSupplier").value,active:true};
+  try{await apiAdmin("/api/admin/products",{method:"POST",body:JSON.stringify(p)});status("adminStatus","Produto cadastrado com sucesso.");["pName","pCategory","pPrice","pImage","pDescription","pSupplier"].forEach(id=>$(id).value="");$("pStock").value="10";await loadProducts();await loadAdmin();}catch(e){status("adminStatus",e.message)}
 }
 
-function openCart(){
-  document.getElementById("drawer").classList.add("show");
-  document.getElementById("overlay").classList.add("show");
-}
-
-function closeCart(){
-  document.getElementById("drawer").classList.remove("show");
-  document.getElementById("overlay").classList.remove("show");
-}
-
-// =====================================
-// FINALIZAR PEDIDO PELO WHATSAPP
-// =====================================
-
-function checkout(){
-  if(!cart.length){
-    alert("Adicione um produto à sacola.");
-    return;
-  }
-
-  if(WHATSAPP_NUMBER === "5500000000000"){
-    alert("Configure o número de WhatsApp da loja no código antes de publicar.");
-    return;
-  }
-
-  const validCart = cart.map(x => ({
-    ...x,
-    product:products.find(p => String(p.id) === String(x.id))
-  })).filter(x => x.product);
-
-  const lines = validCart.map(x =>
-    `• ${x.product.name} — ${x.qty}x — ${money(x.product.price*x.qty)}`
-  );
-
-  const total = validCart.reduce(
-    (s,x) => s + Number(x.product.price)*x.qty,0
-  );
-
-  const message = `Olá! Quero fazer este pedido na LZN STORE:
-
-${lines.join("\n")}
-
-Total: ${money(total)}
-
-Como faço para concluir a compra?`;
-
-  window.open(
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
-    "_blank"
-  );
-}
-
-// =====================================
-// FILTROS E EVENTOS
-// =====================================
-
-document.getElementById("search").addEventListener(
-  "input",renderProducts
-);
-
-document.querySelectorAll(".filter").forEach(button => {
-  button.addEventListener("click",() => {
-    filter = button.dataset.filter;
-
-    document.querySelectorAll(".filter").forEach(x =>
-      x.classList.toggle("active",x === button)
-    );
-
-    renderProducts();
-  });
-});
-
-document.querySelectorAll(".category").forEach(link => {
-  link.addEventListener("click",() => {
-    filter = link.dataset.cat;
-
-    document.querySelectorAll(".filter").forEach(x =>
-      x.classList.toggle("active",x.dataset.filter === filter)
-    );
-
-    renderProducts();
-  });
-});
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-// =====================================
-// INICIALIZAÇÃO
-// =====================================
-
-renderProducts();
-renderCart();
-loadProducts();
-
+$("openCart").addEventListener("click",openCart);$("closeCart").addEventListener("click",closeCart);$("overlay").addEventListener("click",closeCart);
+$("checkoutBtn").addEventListener("click",()=>{if(!cart.length)return alert("Adicione produtos à sacola.");closeCart();showModal("checkoutModal")});
+$("checkoutForm").addEventListener("submit",checkoutSubmit);$("search").addEventListener("input",renderProducts);
+$("filters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderProducts()});
+document.querySelectorAll(".category").forEach(a=>a.addEventListener("click",()=>{activeFilter=a.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.filter===activeFilter));renderProducts()}));
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>hideModal(b.dataset.close)));
+$("adminLink").addEventListener("click",e=>{e.preventDefault();if(session){$("admin").classList.toggle("show");loadAdmin()}else showModal("loginModal")});
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();if(!db)return status("loginStatus","Configure o Supabase primeiro.");const f=new FormData(e.target);status("loginStatus","Entrando...");const {error}=await db.auth.signInWithPassword({email:f.get("email"),password:f.get("password")});if(error)return status("loginStatus",error.message);hideModal("loginModal");await currentSession();});
+$("logout").addEventListener("click",async()=>{await db.auth.signOut();session=null;$("admin").classList.remove("show");$("adminLink").hidden=true});
+$("saveProduct").addEventListener("click",createProduct);$("refreshAdmin").addEventListener("click",loadAdmin);
+$("year").textContent=new Date().getFullYear();
+const paymentState=new URLSearchParams(location.search).get("pagamento");if(paymentState==="sucesso")alert("Pagamento aprovado! Seu pedido está sendo atualizado.");else if(paymentState==="pendente")alert("Pagamento pendente. Aguarde a confirmação.");else if(paymentState==="falhou")alert("O pagamento não foi concluído. Você pode tentar novamente.");
+renderCart();loadProducts().then(currentSession);
 </script>
-</body>
-</html>
+</body></html>
